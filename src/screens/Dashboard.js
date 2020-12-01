@@ -23,12 +23,12 @@ class Dashboard extends Component {
     status: "disconnected",
     participants: new Map(),
     videoTracks: new Map(),
-    roomName: "Room 1",
+    roomName: "Room 2",
     showLocalView: true,
     trackSid: "",
     trackIdentifier: {},
-    token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImN0eSI6InR3aWxpby1mcGE7dj0xIn0.eyJqdGkiOiJTSzllMTY3MzExYWM3ZTM2MGQ1OGJjMDhkMTg1OTI2YzA0LTE2MDYzNzYxMjIiLCJpc3MiOiJTSzllMTY3MzExYWM3ZTM2MGQ1OGJjMDhkMTg1OTI2YzA0Iiwic3ViIjoiQUMxNDZiOGE1YTZjNWFkYTdjNjU3OTJjZmU3NWQwYWVjNCIsImV4cCI6MTYwNjM3OTcyMiwiZ3JhbnRzIjp7ImlkZW50aXR5IjoibW1ta2trampqaGhoaGhoaGhoaGhoaGhoaGhoaGhoaGhoaGhoaGhoaGhoIiwidmlkZW8iOnt9fX0.03G2Abrf4yH9NapMccu08_-1oDFRF5j_ic7PKfz9QMw",
-    tokenPhone: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImN0eSI6InR3aWxpby1mcGE7dj0xIn0.eyJqdGkiOiJTSzllMTY3MzExYWM3ZTM2MGQ1OGJjMDhkMTg1OTI2YzA0LTE2MDYzNzQ4MTkiLCJpc3MiOiJTSzllMTY3MzExYWM3ZTM2MGQ1OGJjMDhkMTg1OTI2YzA0Iiwic3ViIjoiQUMxNDZiOGE1YTZjNWFkYTdjNjU3OTJjZmU3NWQwYWVjNCIsImV4cCI6MTYwNjM3ODQxOSwiZ3JhbnRzIjp7ImlkZW50aXR5IjoibW1ta2trIiwidmlkZW8iOnt9fX0.jLFpu6iJKCQH-1XmpfZy-VLy3nD1mb_kSZNeUa75lr8",
+    token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImN0eSI6InR3aWxpby1mcGE7dj0xIn0.eyJqdGkiOiJTSzllMTY3MzExYWM3ZTM2MGQ1OGJjMDhkMTg1OTI2YzA0LTE2MDY4MTE0MTYiLCJpc3MiOiJTSzllMTY3MzExYWM3ZTM2MGQ1OGJjMDhkMTg1OTI2YzA0Iiwic3ViIjoiQUMxNDZiOGE1YTZjNWFkYTdjNjU3OTJjZmU3NWQwYWVjNCIsImV4cCI6MTYwNjgxNTAxNiwiZ3JhbnRzIjp7ImlkZW50aXR5Ijoic2hhc2hhbmsiLCJ2aWRlbyI6e319fQ.jZ3qYFk9_qVKmakRGnXyOM8chCB0scSZ4lIuCzk1cQs",
+    tokenPhone: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImN0eSI6InR3aWxpby1mcGE7dj0xIn0.eyJqdGkiOiJTSzllMTY3MzExYWM3ZTM2MGQ1OGJjMDhkMTg1OTI2YzA0LTE2MDY4MTE0NTQiLCJpc3MiOiJTSzllMTY3MzExYWM3ZTM2MGQ1OGJjMDhkMTg1OTI2YzA0Iiwic3ViIjoiQUMxNDZiOGE1YTZjNWFkYTdjNjU3OTJjZmU3NWQwYWVjNCIsImV4cCI6MTYwNjgxNTA1NCwiZ3JhbnRzIjp7ImlkZW50aXR5IjoibWF5YW5rIiwidmlkZW8iOnt9fX0.BkvM7icxRgB6GHipaQcx5Th-hLNKyde5HI-640TnnXs",
   };
   connect = async () => {
     try {
@@ -142,30 +142,6 @@ class Dashboard extends Component {
                   key={this.state.trackSid}
                   trackIdentifier={this.state.trackIdentifier}
                 />)}
-              <View style={styles.optionsContainer}>
-                <TouchableOpacity
-                  style={styles.optionButton}
-                  onPress={this._onEndButtonPress}
-                >
-                  <Icon
-                    name='call' size={30} color='#dd3439' />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.optionButton}
-                  onPress={this._onMuteButtonPress}
-                >
-                  <Icon
-                    name={this.state.isAudioEnabled ? "md-mic-outline" : "md-mic-off-outline"} size={30} color='#fff' />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.optionButton}
-                  onPress={this._onFlipButtonPress}
-                >
-                  <Icon
-                    name='sync' size={30} color='#fff' />
-                </TouchableOpacity>
-                <View />
-              </View>
             </View>
             <View style={styles.secondContainer}>
               <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.remoteGrid}>
@@ -201,6 +177,30 @@ class Dashboard extends Component {
                 )}
               </ScrollView>
             </View>
+            <View style={styles.optionsContainer}>
+              <TouchableOpacity
+                style={styles.optionButton}
+                onPress={this._onEndButtonPress}
+              >
+                <Icon
+                  name='call' size={30} color='#dd3439' />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.optionButton}
+                onPress={this._onMuteButtonPress}
+              >
+                <Icon
+                  name={this.state.isAudioEnabled ? "md-mic-outline" : "md-mic-off-outline"} size={30} color='#fff' />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.optionButton}
+                onPress={this._onFlipButtonPress}
+              >
+                <Icon
+                  name='sync' size={30} color='#fff' />
+              </TouchableOpacity>
+              <View />
+            </View>
           </View>
           ) : null}
         <TwilioVideo
@@ -223,16 +223,15 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   firstContainer: {
-    flex: 1,
+    flex: 3,
   },
   secondContainer: {
-    flex: 1,
+    flex: 3,
   },
   remoteGrid: {
     flex: 1,
     flexDirection: "row",
-    alignContent: 'space-between',
-    marginTop: 20
+    marginTop: 35
   },
   innerContainer: {
     flexDirection: 'column',
@@ -241,12 +240,13 @@ const styles = StyleSheet.create({
   txt: {
     flex: 1,
     alignSelf: 'center',
+    marginLeft: 15,
     fontSize: 22,
     color: '#fff'
   },
   smallVideoView: {
-    flex: 3,
-    margin: 10
+    flex: 5,
+    marginLeft: 15
   },
   optionsContainer: {
     flex: 1,
