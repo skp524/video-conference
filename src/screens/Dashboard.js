@@ -15,7 +15,7 @@ import {
 } from "react-native-twilio-video-webrtc";
 import { checkPermissions } from "../utility/CommonFunctions";
 import Icon from 'react-native-vector-icons/Ionicons';
-
+import IconFeather from 'react-native-vector-icons/Feather';
 class Dashboard extends Component {
   state = {
     isAudioEnabled: true,
@@ -23,21 +23,20 @@ class Dashboard extends Component {
     status: "disconnected",
     participants: new Map(),
     videoTracks: new Map(),
-    roomName: "Room 2",
+    roomName: "Room 1",
     showLocalView: true,
     trackSid: "",
     trackIdentifier: {},
-    token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImN0eSI6InR3aWxpby1mcGE7dj0xIn0.eyJqdGkiOiJTSzllMTY3MzExYWM3ZTM2MGQ1OGJjMDhkMTg1OTI2YzA0LTE2MDY4MTE0MTYiLCJpc3MiOiJTSzllMTY3MzExYWM3ZTM2MGQ1OGJjMDhkMTg1OTI2YzA0Iiwic3ViIjoiQUMxNDZiOGE1YTZjNWFkYTdjNjU3OTJjZmU3NWQwYWVjNCIsImV4cCI6MTYwNjgxNTAxNiwiZ3JhbnRzIjp7ImlkZW50aXR5Ijoic2hhc2hhbmsiLCJ2aWRlbyI6e319fQ.jZ3qYFk9_qVKmakRGnXyOM8chCB0scSZ4lIuCzk1cQs",
-    tokenPhone: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImN0eSI6InR3aWxpby1mcGE7dj0xIn0.eyJqdGkiOiJTSzllMTY3MzExYWM3ZTM2MGQ1OGJjMDhkMTg1OTI2YzA0LTE2MDY4MTE0NTQiLCJpc3MiOiJTSzllMTY3MzExYWM3ZTM2MGQ1OGJjMDhkMTg1OTI2YzA0Iiwic3ViIjoiQUMxNDZiOGE1YTZjNWFkYTdjNjU3OTJjZmU3NWQwYWVjNCIsImV4cCI6MTYwNjgxNTA1NCwiZ3JhbnRzIjp7ImlkZW50aXR5IjoibWF5YW5rIiwidmlkZW8iOnt9fX0.BkvM7icxRgB6GHipaQcx5Th-hLNKyde5HI-640TnnXs",
+    token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImN0eSI6InR3aWxpby1mcGE7dj0xIn0.eyJqdGkiOiJTSzllMTY3MzExYWM3ZTM2MGQ1OGJjMDhkMTg1OTI2YzA0LTE2MDc4MzkxNTEiLCJpc3MiOiJTSzllMTY3MzExYWM3ZTM2MGQ1OGJjMDhkMTg1OTI2YzA0Iiwic3ViIjoiQUMxNDZiOGE1YTZjNWFkYTdjNjU3OTJjZmU3NWQwYWVjNCIsImV4cCI6MTYwNzg0Mjc1MSwiZ3JhbnRzIjp7ImlkZW50aXR5Ijoic2hhc2hhbmsiLCJ2aWRlbyI6e319fQ.XO2FC_N-QTqGzX4iuCY6ll47VQrL89VoqoRsY-VnTsc",
+    tokenPhone: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImN0eSI6InR3aWxpby1mcGE7dj0xIn0.eyJqdGkiOiJTSzllMTY3MzExYWM3ZTM2MGQ1OGJjMDhkMTg1OTI2YzA0LTE2MDc4MzkxOTQiLCJpc3MiOiJTSzllMTY3MzExYWM3ZTM2MGQ1OGJjMDhkMTg1OTI2YzA0Iiwic3ViIjoiQUMxNDZiOGE1YTZjNWFkYTdjNjU3OTJjZmU3NWQwYWVjNCIsImV4cCI6MTYwNzg0Mjc5NCwiZ3JhbnRzIjp7ImlkZW50aXR5Ijoic2hhc2hhbmsgbW9iaWxlIiwidmlkZW8iOnt9fX0.kgUFlZWJkhFUNb_5HNpw-zQmLanU0nOZOx_FX_le0lw",
   };
   connect = async () => {
     try {
       const permissionCheck = await checkPermissions();
       permissionCheck ? this.twilioRef.connect({
         roomName: this.state.roomName,
-        accessToken: this.state.token,
-        audio: true,
-        dominantSpeaker: true,
+        accessToken: this.state.tokenPhone,
+        audio: this.state.isAudioEnabled,
       }) : await checkPermissions();
     } catch (error) {
       console.log(error);
@@ -49,9 +48,8 @@ class Dashboard extends Component {
       const permissionCheck = await checkPermissions();
       permissionCheck ? this.twilioRef.connect({
         roomName: this.state.roomName,
-        accessToken: this.state.tokenPhone,
-        audio: true,
-        dominantSpeaker: true,
+        accessToken: this.state.token,
+        audio: this.state.isAudioEnabled,
       }) : await checkPermissions();
     } catch (error) {
       console.log(error);
@@ -59,7 +57,6 @@ class Dashboard extends Component {
     }
     this.setState({ status: "connecting" });
   };
-
 
   _onEndButtonPress = () => {
     this.twilioRef.disconnect();
@@ -72,8 +69,11 @@ class Dashboard extends Component {
     console.log(this.state.isAudioEnabled)
   };
 
-  _onFlipButtonPress = () => {
-    this.twilioRef.flipCamera();
+  _onDisableVideo = () => {
+    this.twilioRef
+      .setLocalVideoEnabled(!this.state.isVideoEnabled)
+      .then(isEnabled => this.setState({ isVideoEnabled: isEnabled }));
+    // this.twilioRef.flipCamera();
   };
 
   _onRoomDidConnect = ({ roomName, error }) => {
@@ -81,7 +81,6 @@ class Dashboard extends Component {
 
     this.setState({ status: 'connected' });
   };
-
   _onRoomDidDisconnect = ({ roomName, error }) => {
     console.log("ERROR: ", error);
     console.log(roomName)
@@ -103,7 +102,9 @@ class Dashboard extends Component {
         ...this.state.videoTracks,
         [
           track.trackSid,
-          { participantSid: participant.sid, videoTrackSid: track.trackSid, identity: participant.identity },
+          {
+            participantSid: participant.sid, videoTrackSid: track.trackSid, identity: participant.identity,
+          },
         ]
       ])
     });
@@ -122,6 +123,18 @@ class Dashboard extends Component {
   setTwilioRef = ref => {
     this.twilioRef = ref;
   };
+  onParticipantEnabledVideoTrack = ({ participant, track }) => {
+    console.log(participant);
+  }
+  onParticipantDisabledVideoTrack = ({ participant, track }) => {
+    console.log(participant);
+  }
+  onParticipantEnabledAudioTrack = ({ participant, track }) => {
+    console.log(participant);
+  }
+  onParticipantDisabledAudioTrack = ({ participant, track }) => {
+    console.log(participant);
+  }
   render() {
     return (
       <View style={styles.container} >
@@ -194,10 +207,10 @@ class Dashboard extends Component {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.optionButton}
-                onPress={this._onFlipButtonPress}
+                onPress={this._onDisableVideo}
               >
-                <Icon
-                  name='sync' size={30} color='#fff' />
+                <IconFeather
+                  name={this.state.isVideoEnabled ? "video" : "video-off"} size={30} color='#fff' />
               </TouchableOpacity>
               <View />
             </View>
@@ -210,6 +223,10 @@ class Dashboard extends Component {
           onRoomDidFailToConnect={this._onRoomDidFailToConnect}
           onParticipantAddedVideoTrack={this._onParticipantAddedVideoTrack}
           onParticipantRemovedVideoTrack={this._onParticipantRemovedVideoTrack}
+          onParticipantDisabledVideoTrack={this.onParticipantDisabledVideoTrack}
+          onParticipantEnabledVideoTrack={this.onParticipantEnabledVideoTrack}
+          onParticipantDisabledAudioTrack={this.onParticipantDisabledAudioTrack}
+          onParticipantEnabledAudioTrack={this.onParticipantEnabledAudioTrack}
         />
       </View>);
   }
